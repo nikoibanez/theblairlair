@@ -241,13 +241,13 @@ function initIntroGate(audioApi) {
   let leaving = false;
   let cancelled = false;
 
-  goop.volume = 0.90;
+  goop.volume = 0.24;
   goop.currentTime = 0;
   goop.play().catch(() => { autoplayBlocked = true; });
 
   const wakeBlockedGoop = event => {
     if (!autoplayBlocked || leaving || event?.target === enter) return;
-    goop.volume = 0.90;
+    goop.volume = 0.24;
     goop.play().then(() => { autoplayBlocked = false; }).catch(() => { autoplayBlocked = true; });
   };
   intro.addEventListener('pointerdown', wakeBlockedGoop, { passive: true });
@@ -391,7 +391,7 @@ function initIntroGate(audioApi) {
 
     if (autoplayBlocked || goop.paused) {
       goop.currentTime = 0;
-      goop.volume = 0.90;
+      goop.volume = 0.24;
       goop.play().then(() => window.setTimeout(beginCrossfade, 720)).catch(beginCrossfade);
     } else beginCrossfade();
   };
