@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "netlify dev",
-    "deploy": "netlify deploy --prod --dir=public"
+    "deploy": "netlify deploy --prod --dir=public",
+    "review:add": "node scripts/archive-approved-submission.mjs"
   },
   "devDependencies": {
     "@netlify/functions": "latest",
