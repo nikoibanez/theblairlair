@@ -1,0 +1,12 @@
+{
+  "name": "theblairlair",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod --dir=public"
+  },
+  "devDependencies": {
+    "@netlify/functions": "latest",
+    "netlify-cli": "latest"
+  }
+}
