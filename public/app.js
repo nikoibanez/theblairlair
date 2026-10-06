@@ -143,9 +143,18 @@ function initIntroGate(audioApi) {
   let leaving = false;
   let cancelled = false;
 
-  goop.volume = 0.72;
+  goop.volume = 0.90;
   goop.currentTime = 0;
   goop.play().catch(() => { autoplayBlocked = true; });
+
+  const wakeBlockedGoop = event => {
+    if (!autoplayBlocked || leaving || event?.target === enter) return;
+    goop.volume = 0.90;
+    goop.play().then(() => { autoplayBlocked = false; }).catch(() => { autoplayBlocked = true; });
+  };
+  intro.addEventListener('pointerdown', wakeBlockedGoop, { passive: true });
+  intro.addEventListener('touchstart', wakeBlockedGoop, { passive: true });
+  intro.addEventListener('keydown', wakeBlockedGoop);
 
   const sleep = ms => new Promise(resolve => window.setTimeout(resolve, ms));
   const type = async (value, min = 34, max = 94) => {
@@ -260,7 +269,7 @@ function initIntroGate(audioApi) {
 
     if (autoplayBlocked || goop.paused) {
       goop.currentTime = 0;
-      goop.volume = 0.72;
+      goop.volume = 0.90;
       goop.play().then(() => window.setTimeout(beginCrossfade, 720)).catch(beginCrossfade);
     } else beginCrossfade();
   };

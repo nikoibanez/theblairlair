@@ -1,4 +1,4 @@
-﻿:root{
+:root{
   --ink:#080906;
   --paper:#d9cfac;
   --paper2:#bfb58f;
@@ -129,3 +129,7 @@ html.blair-first .blair-intro{display:grid}
 @keyframes intro-shiver{0%{transform:translate(-2px,0) rotate(-.15deg)}100%{transform:translate(2px,1px) rotate(.12deg)}}
 @media(max-width:720px){.intro-type.is-rant{font-size:clamp(1.35rem,6.2vw,2.4rem);line-height:1.22}.intro-type.is-final{font-size:clamp(2rem,9vw,3.6rem)}}
 @media(prefers-reduced-motion:reduce){.intro-type.intro-shiver{animation:none}.intro-type.intro-jolt{transform:none;filter:none}}
+
+/* Zia Youth note */
+.zia-note{max-width:var(--max);margin:-.4rem auto 2rem;padding:1rem 1.15rem;background:#111407;border:2px dashed var(--slime);border-left:10px solid var(--slime);color:#d8d1b8;font-family:"Special Elite",serif;line-height:1.5;box-shadow:7px 8px 0 #000;transform:rotate(-.2deg)}
+.zia-note strong{color:var(--slime);font-family:"IBM Plex Mono",monospace;letter-spacing:.04em}.zia-note span{color:var(--yellow);font-weight:700;letter-spacing:.12em}
