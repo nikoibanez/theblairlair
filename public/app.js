@@ -185,6 +185,7 @@ function initIntroGate(audioApi) {
   const text = document.querySelector('#blair-intro-text');
   const enter = document.querySelector('#blair-enter');
   const goop = document.querySelector('#intro-goop-audio');
+  const introRatman = document.querySelector('#intro-ratman');
   const isFirstVisit = document.documentElement.classList.contains('blair-first');
   if (!intro || !text || !enter || !goop || !isFirstVisit) return;
 
@@ -208,6 +209,11 @@ function initIntroGate(audioApi) {
   intro.addEventListener('keydown', wakeBlockedGoop);
 
   const sleep = ms => new Promise(resolve => window.setTimeout(resolve, ms));
+  const emotionClasses = ['emotion-hushed','emotion-watchful','emotion-creep','emotion-panic','emotion-rant','emotion-unravel','emotion-small','intro-real-frenzy','intro-final-frenzy'];
+  const setEmotion = (...classes) => {
+    text.classList.remove(...emotionClasses);
+    classes.filter(Boolean).forEach(cls => text.classList.add(cls));
+  };
   const type = async (value, min = 34, max = 94) => {
     text.classList.remove('done');
     for (let i = 0; i <= value.length && !cancelled; i += 1) {
@@ -238,56 +244,73 @@ function initIntroGate(audioApi) {
 
   const runRant = async () => {
     text.classList.add('is-rant');
-    await sleep(240);
+    setEmotion('emotion-hushed');
+    await sleep(420);
     await type('I knew I saw him before I knew his name.');
     await sleep(820);
     await clearAbruptly(130);
 
+    setEmotion('emotion-watchful');
     await type('Sitting there on top of El Raton...');
     await sleep(720);
+    setEmotion('emotion-creep');
     await type(' menacingly.');
     await sleep(420);
+    setEmotion('emotion-panic');
     await type(' Menacingly perching.');
     await sleep(980);
     await clearAbruptly(120);
 
+    setEmotion('emotion-panic');
     await type('I think we made eye contact before I fell into a bush, paralyezd with terror.');
     await sleep(380);
     await erase('paralyezd with terror.'.length + 1, 16);
+    setEmotion('emotion-watchful');
     await type('paralyzed with terror.', 25, 58);
     await sleep(930);
     await clearAbruptly(90);
 
-    text.classList.add('intro-shiver');
-    await type("He's real... He's real!", 26, 72);
-    await sleep(940);
-    text.classList.remove('intro-shiver');
+    setEmotion('emotion-panic', 'intro-real-frenzy');
+    await type("He's real... He's real!", 20, 50);
+    await sleep(1150);
+    setEmotion('emotion-hushed');
     await clearAbruptly(80);
 
+    setEmotion('emotion-rant');
     await type("I'll get him soon! Then everyone will see the true terror of Blair!", 25, 66);
     await sleep(880);
     await clearAbruptly(100);
 
+    setEmotion('emotion-unravel');
     await type('Blair in the air. Blair on the stair. Blair by the chair. Blair--', 19, 49);
     await sleep(510);
     await erase(8, 13);
+    setEmotion('emotion-creep');
     await type('...hair?', 32, 78);
     await sleep(690);
+    setEmotion('emotion-unravel');
     await type(' Where? Beware? Lair?', 22, 55);
     await sleep(600);
     await clearAbruptly(55);
 
+    setEmotion('emotion-small');
     await type('Why do they all rhyme?', 22, 55);
     await sleep(560);
     await erase(22, 15);
+    setEmotion('emotion-hushed');
     await type('Forget that.', 20, 44);
     await sleep(510);
     await clearAbruptly(70);
 
     text.classList.remove('is-rant');
-    text.classList.add('is-final', 'intro-shiver');
-    await type('do you DARE to enter the BLAIR LAIR', 38, 88);
-    text.classList.remove('intro-shiver');
+    text.classList.add('is-final');
+    setEmotion('intro-final-frenzy');
+    if (introRatman) {
+      introRatman.classList.remove('is-running');
+      void introRatman.offsetWidth;
+      introRatman.classList.add('is-running');
+    }
+    await type('do you DARE to enter the BLAIR LAIR', 30, 70);
     text.classList.add('done');
     enter.hidden = false;
   };
