@@ -1,9 +1,10 @@
-[build]
-  publish = "public"
+﻿[build]
+  command = "node build.js"
+  publish = "dist"
   functions = "netlify/functions"
 
 [dev]
-  publish = "public"
+  publish = "dist"
 
 [[headers]]
   for = "/*"

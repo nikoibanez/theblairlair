@@ -1,17 +1,34 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#080906" />
   <meta name="description" content="The Blair Lair: lore, sightings, and merch for Raton's fictional man-rat cryptid." />
-  <title>The Blair Lair — Beware the Call of Blair</title>
+  <title>The Blair Lair - Beware the Call of Blair</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=IBM+Plex+Mono:wght@400;600;700&family=Rubik+Wet+Paint&family=Special+Elite&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <script>
+    try {
+      const replayIntro = new URLSearchParams(location.search).has('intro');
+      if (!localStorage.getItem('blair-lair-entered') || replayIntro) document.documentElement.classList.add('blair-first');
+    } catch (_) { document.documentElement.classList.add('blair-first'); }
+  </script>
 </head>
 <body>
+
+  <div id="blair-intro" class="blair-intro" role="dialog" aria-modal="true" aria-labelledby="blair-intro-text">
+    <audio id="intro-goop-audio" preload="auto" src="/audio/00-lair-drip.wav"></audio>
+    <div class="intro-goop" aria-hidden="true"></div>
+    <div class="intro-fly intro-fly-a" aria-hidden="true"></div>
+    <div class="intro-fly intro-fly-b" aria-hidden="true"></div>
+    <div class="intro-inner">
+      <p id="blair-intro-text" class="intro-type" aria-label="do you DARE to enter the BLAIR LAIR"></p>
+      <button id="blair-enter" class="intro-enter" type="button" hidden>ENTER</button>
+    </div>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <div class="noise" aria-hidden="true"></div>
   <header class="site-header">
@@ -37,7 +54,7 @@
       <div class="hero-copy">
         <p class="warning-strip">LOCAL NOTICE // IF YOU HEAR SCRATCHING ABOVE YOU, KEEP WALKING</p>
         <h1 id="hero-title"><span>BEWARE</span><small>THE CALL OF</small><strong>BLAIR</strong></h1>
-        <p class="hero-deck">Rat. Man. Myth. Disease. Something else. He turns up in the places where bad decisions still smell fresh.</p>
+        <p class="hero-deck">Raton keeps producing evidence in the same places respectable explanations go to die: wet alleys, railroad margins, old masonry, and anywhere somebody has recently lied about where they were after midnight.</p>
         <div class="hero-actions">
           <a class="btn slime" href="#merch">SHOP THE FILTH</a>
           <a class="btn paper" href="#lore">READ THE RATON ACCOUNT</a>
@@ -61,17 +78,18 @@
     <section id="lore" class="lore section-shell" aria-labelledby="lore-title">
       <div class="lore-paper">
         <p class="stamp">THE RATON ACCOUNT</p>
-        <h2 id="lore-title">Nobody agrees when Blair first started showing up.</h2>
-        <p>Some put him in the alleys behind downtown. Others put him along the railroad cut after midnight. The details stay embarrassingly consistent: a man’s silhouette, a rat’s face, bright yellow eyes, and the smell of wet concrete and somebody else’s cigarette.</p>
-        <p>Blair does not arrive for tragedy. He arrives after petty crimes, bad hookups, missing beer, busted locks, stolen extension cords, inexplicable stains, and decisions nobody wants to explain in daylight.</p>
-        <p>Sometimes you hear him in the walls. Sometimes in the alley. Sometimes in your own head. Once you hear the call, the local advice is simple: do not answer correctly.</p>
-        <blockquote>“If Blair asks where you’re headed, lie.”</blockquote>
+        <h2 id="lore-title">Field notes from the Blair problem, filed somewhere between vermin, civic embarrassment, weather damage, and a very poor night's sleep.</h2>
+        <p>I began asking about Blair because too many people in Raton had the same nervous little pause before saying they had never heard of him, which is the kind of pause that gets a notebook opened. By the third conversation I had acquired two contradictory maps, a photograph of somebody's drainpipe, a motel napkin marked with a circle around nowhere useful, and firm advice from a man outside a bar that I should stop looking upward in alleys.</p>
+        <p>The witnesses disagree about everything useful, yet the useless details arrive with bureaucratic precision: wet concrete underfoot, yellow eyes where no eyes belonged, a long tail moving behind something built like an exhausted adult man, and the sour tobacco smell of a coat that had slept outdoors longer than its owner. Nobody can agree whether Blair walks, crawls, or simply arrives halfway through whatever bad decision is already underway.</p>
+        <p>His territory appears to follow appetite instead of geography, drifting toward railroad edges, dumpsters behind respectable buildings, unlocked gates, roofs with poor drainage, and any parking lot where a person has just said, "This will probably be fine." The pattern is less predation than participation; Blair seems to want the evening to continue until everyone involved has made one choice too many.</p>
+        <p>At 2:13 one morning I heard scratching above an alley awning and looked up long enough to see a shape withdraw with the guilty speed of something that understood municipal code. I left Raton with no proof worth presenting to a court and a standing recommendation that if Blair asks where you are going, tell him Colorado.</p>
+        <blockquote>"The animal, if animal is the word, has the manners of a trespasser and the timing of a landlord."</blockquote>
       </div>
 
       <div class="lore-collage" aria-label="Photo collage of Raton locations and Blair fragments">
         <figure class="polaroid p1"><img src="/assets/blair_goldenrule.jpg" alt="Golden Rule building with a crude rat-head collage in an upper window" /><figcaption>1st Street / disputed</figcaption></figure>
         <figure class="polaroid p2"><img src="/assets/blair_train.jpg" alt="Raton train station with a tiny crude rat-head collage" /><figcaption>rail yard / 11:48 PM</figcaption></figure>
-        <figure class="polaroid p3"><img src="/assets/solano_xerox.png" alt="High-contrast xerox treatment of a Raton storefront" /><figcaption>someone wrote “same places, different skin” on the back</figcaption></figure>
+        <figure class="polaroid p3"><img src="/assets/solano_xerox.png" alt="High-contrast xerox treatment of a Raton storefront" /><figcaption>someone wrote "same places, different skin" on the back</figcaption></figure>
         <img class="loose-rat" src="/assets/rat_full_cutout.png" alt="Cutout stock photograph of a rat" />
       </div>
     </section>
@@ -112,40 +130,40 @@
 
     <section id="sightings" class="sightings section-shell" aria-labelledby="sightings-title">
       <div class="section-title-row">
-        <h2 id="sightings-title">SIGHTINGS / MISIDENTIFICATIONS / BAD EXCUSES</h2>
-        <p>Hover or focus a card. Blair dislikes being documented but loves attention.</p>
+        <h2 id="sightings-title">SIGHTINGS & MUNICIPAL WEATHER</h2>
+        <p>The archive is arranged according to the only standard available: whether the witness sounded more frightened before or after realizing the photograph would be shown to other people.</p>
       </div>
       <div class="sighting-grid">
-        <article class="sighting-card"><img src="/assets/blair_jail.jpg" alt="Black and white jail-bar photograph with an obvious rat-head collage" /><div><strong>CASE 004</strong><span>“He said the bars were already like that.”</span></div></article>
-        <article class="sighting-card"><img src="/assets/night-market.jpg" alt="Dark storefront entrance at night" /><div><strong>CASE 011</strong><span>A security camera records seven minutes of scratching. Nothing enters frame.</span></div></article>
-        <article class="sighting-card"><img src="/assets/stone-ruin.jpg" alt="Old stone structure outside Raton" /><div><strong>CASE 018</strong><span>Three beer cans appeared inside a locked structure. None were the same brand.</span></div></article>
-        <article class="sighting-card"><img src="/assets/street-police.jpg" alt="Night street scene with police and bystanders" /><div><strong>CASE 022</strong><span>Nobody arrested Blair. Nobody admits Blair was there.</span></div></article>
-        <article class="sighting-card"><img src="/assets/rat-mask.jpg" alt="Vintage rat-like character mask" /><div><strong>FALSE BLAIR?</strong><span>Too clean. Too theatrical. Blair would resent the tailoring.</span></div></article>
-        <article class="sighting-card"><img src="/assets/rat-hands.jpg" alt="Black rat standing on human hands" /><div><strong>CASE 031</strong><span>The witness insisted this was “just a normal rat” four separate times.</span></div></article>
+        <article class="sighting-card"><img src="/assets/blair_jail.jpg" alt="Black and white jail-bar photograph with an obvious rat-head collage" /><div><strong>CASE 004</strong><span>The witness insisted the bars had always bent inward at shoulder height and became less certain when asked why there were muddy handprints on the ceiling.</span></div></article>
+        <article class="sighting-card"><img src="/assets/night-market.jpg" alt="Dark storefront entrance at night" /><div><strong>CASE 011</strong><span>The camera records seven minutes of scratching above the door while the picture remains empty, which is technically excellent security footage and terrible evidence.</span></div></article>
+        <article class="sighting-card"><img src="/assets/stone-ruin.jpg" alt="Old stone structure outside Raton" /><div><strong>CASE 018</strong><span>Three beer cans turned up inside the locked stone structure before sunrise; the caretaker rejected the obvious explanation because, in his words, Blair has terrible taste but usually commits to one brand.</span></div></article>
+        <article class="sighting-card"><img src="/assets/street-police.jpg" alt="Night street scene with police and bystanders" /><div><strong>CASE 022</strong><span>Police activity on the block produced four versions of the evening, none of which included Blair until the photograph circulated the next morning and everybody suddenly remembered the scratching.</span></div></article>
+        <article class="sighting-card"><img src="/assets/rat-mask.jpg" alt="Vintage rat-like character mask" /><div><strong>FALSE BLAIR?</strong><span>A recurring false positive among tourists: theatrical vermin with intact tailoring and visible effort that Blair has never demonstrated.</span></div></article>
+        <article class="sighting-card"><img src="/assets/rat-hands.jpg" alt="Black rat standing on human hands" /><div><strong>CASE 031</strong><span>The witness used the phrase "normal rat" four times without being asked, then requested that the photograph be deleted and immediately asked for a copy.</span></div></article>
       </div>
     </section>
 
     <section id="merch" class="merch section-shell" aria-labelledby="merch-title">
       <div class="merch-head">
         <div><span class="stamp red">MERCH</span><h2 id="merch-title">CARRY THE FILTH.</h2></div>
-        <p>Designed here. Fulfilled through Printify. The lair stays ugly; the checkout stays functional.</p>
+        <p>The garments leave the lair through Printify because even a rat-man economy needs a loading dock; the artwork keeps its bad edges while the payment system behaves like an adult.</p>
       </div>
       <div id="product-grid" class="product-grid" data-printify-store="https://blair-the-man-rat.printify.me">
-        <article class="product-card"><div class="product-art art-tee"><img src="/assets/raton_building_xerox.png" alt="Xerox-style building fragment" /><img class="rat-overlay" src="/assets/rat_head_cutout.png" alt="" /></div><h3>Blair Tee</h3><p>Black shirt. Big warning. Questionable witness credibility.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
-        <article class="product-card"><div class="product-art art-hoodie"><img src="/assets/alley.jpg" alt="Dark alley" /><img class="rat-overlay" src="/assets/rat_head_cutout.png" alt="" /></div><h3>Blair Hoodie</h3><p>Appropriate for alley loitering and declining to elaborate.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
-        <article class="product-card"><div class="product-art art-mug"><img src="/assets/train-station.png" alt="Raton train station" /></div><h3>Blair Mug</h3><p>For coffee, broth, or anything you found behind the station.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
-        <article class="product-card"><div class="product-art art-sticker"><img src="/assets/rat_full_cutout.png" alt="Rat cutout" /></div><h3>Blair Stickers</h3><p>Low-cost evidence contamination.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
+        <article class="product-card"><div class="product-art art-tee"><img src="/assets/raton_building_xerox.png" alt="Xerox-style building fragment" /><img class="rat-overlay" src="/assets/rat_head_cutout.png" alt="" /></div><h3>Blair Tee</h3><p>A black shirt carrying the sort of warning normally ignored until the second unexplained noise above the ceiling tile.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
+        <article class="product-card"><div class="product-art art-hoodie"><img src="/assets/alley.jpg" alt="Dark alley" /><img class="rat-overlay" src="/assets/rat_head_cutout.png" alt="" /></div><h3>Blair Hoodie</h3><p>Heavy enough for a cold platform and dark enough for an alley, with enough hood to end a conversation before the questions become specific.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
+        <article class="product-card"><div class="product-art art-mug"><img src="/assets/train-station.png" alt="Raton train station" /></div><h3>Blair Mug</h3><p>Ceramic evidence storage for coffee or whatever dark liquid somebody left cooling behind the station with a spoon still in it.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
+        <article class="product-card"><div class="product-art art-sticker"><img src="/assets/rat_full_cutout.png" alt="Rat cutout" /></div><h3>Blair Stickers</h3><p>Small adhesive evidence for lamp posts, notebooks, toolboxes, and other surfaces that can survive being associated with Blair.</p><a href="https://blair-the-man-rat.printify.me" target="_blank" rel="noopener">SHOP ON PRINTIFY</a></article>
       </div>
-      <p id="printify-status" class="sync-status" aria-live="polite">Printify catalog link active. Live API sync activates when server credentials are configured.</p>
+      <p id="printify-status" class="sync-status" aria-live="polite">Printify catalog link active; live API sync activates when server credentials are configured.</p>
     </section>
 
     <section id="report" class="report section-shell" aria-labelledby="report-title">
-      <div class="report-copy"><span class="stamp">REPORT A SIGHTING</span><h2 id="report-title">Did Blair do something disgusting near you?</h2><p>Submit it for the archive. Keep real names, addresses, accusations, and identifying details out of the report. Make the fiction better, not somebody’s week worse.</p></div>
+      <div class="report-copy"><span class="stamp">REPORT A SIGHTING</span><h2 id="report-title">Did Blair interfere with an otherwise mediocre evening?</h2><p>Send the archive what you saw and where the pavement was wet; mention which explanation failed first if it seems useful. Keep real names and private addresses out of it because Blair can carry the disgrace without borrowing somebody else's.</p></div>
       <form class="sighting-form" name="blair-sighting" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="blair-sighting" />
         <p class="hidden"><label>Do not fill this out <input name="bot-field" /></label></p>
         <label>Approximate location <input name="location" maxlength="80" placeholder="alley / station / behind something sticky" required /></label>
-        <label>What happened? <textarea name="report" rows="5" maxlength="700" placeholder="Keep it fictional, anonymous, and suspicious." required></textarea></label>
+        <label>What happened? <textarea name="report" rows="5" maxlength="700" placeholder="Keep it fictional and anonymous; Blair can handle the rest." required></textarea></label>
         <label>Evidence rating <select name="rating"><option>probably a raccoon</option><option>could be Blair</option><option>unfortunately Blair</option><option>I refuse to answer</option></select></label>
         <button class="btn slime" type="submit">FILE THE FILTH</button>
       </form>
@@ -153,9 +171,26 @@
   </main>
 
   <footer>
-    <p><strong>THE BLAIR LAIR</strong> is a fictional cryptid/art project centered on Raton, New Mexico.</p>
-    <p>Stock-photo collage, crude masks, bad decisions. No generated creature imagery used in the site artwork.</p>
+    <p><strong>THE BLAIR LAIR</strong> is a fictional Raton cryptid project built from local places and collaborative nonsense orbiting an animal with no defensible reason to own a coat.</p>
+    <p>The site artwork uses supplied photographs, crude masks, xerox treatment, and visible collage seams; Blair remains a paste job with ambitions.</p>
   </footer>
-  <script src="/app.js" defer></script>
+
+  <aside class="audio-dock" aria-label="Blair Lair background audio">
+    <audio id="blair-audio" preload="metadata"></audio>
+    <button id="audio-toggle" class="audio-icon" type="button" aria-label="Play background audio" aria-pressed="false">
+      <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+    </button>
+    <div class="audio-copy"><span class="audio-kicker">LAIR AUDIO</span><strong id="audio-title">PORCH RAT</strong></div>
+    <button id="audio-prev" class="audio-skip" type="button" aria-label="Previous track">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zm3 7 9-7v14z"/></svg>
+    </button>
+    <button id="audio-next" class="audio-skip" type="button" aria-label="Next track">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM6 5l9 7-9 7z"/></svg>
+    </button>
+  </aside>
+  <script src="/app-v2.js" defer></script>
 </body>
 </html>
+
+

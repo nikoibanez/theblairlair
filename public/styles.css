@@ -55,3 +55,68 @@ footer{max-width:var(--max);margin:0 auto;padding:3rem 1rem 5rem;color:#8e8976;f
 @media (max-width:720px){.site-header{grid-template-columns:1fr auto}.site-header nav{grid-column:1/-1;order:3;justify-content:flex-start;overflow:visible;flex-wrap:wrap;padding-bottom:.3rem}.cart-link{font-size:.75rem}.hero{min-height:auto;padding-top:8rem}.hero h1 small{transform:none}.paper-fragment{opacity:.76}.frag-golden{width:145px}.frag-station{width:120px}.note-one,.note-two,.rat-tail{display:none}.blair-figure{width:100%}.stink-lines{right:-1rem}.lore-collage{min-height:570px}.polaroid{width:76%}.p2{top:155px}.loose-rat{width:48%}.section-title-row,.merch-head{display:block}.section-title-row p,.merch-head p{margin-top:1rem}.sighting-grid,.product-grid{grid-template-columns:1fr}.product-card{transform:none!important}.terminal{margin-left:1rem;margin-right:1rem}.terminal-grid{padding:.8rem}.ascii{font-size:.55rem}.terminal-head{font-size:.78rem}.report{padding-top:4rem}.hero-actions{display:grid}.btn{width:100%}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
 
+
+/* 2026-10-06: goop pass + lair audio */
+body{position:relative;isolation:isolate;background:#060705}
+body::before{content:"";position:fixed;inset:-18vh -12vw;z-index:0;pointer-events:none;opacity:.30;background:
+ radial-gradient(ellipse at 9% 12%,rgba(183,255,0,.34) 0 4%,transparent 4.7%),
+ radial-gradient(ellipse at 16% 16%,rgba(113,160,0,.24) 0 7%,transparent 7.8%),
+ radial-gradient(ellipse at 82% 22%,rgba(117,255,0,.20) 0 5%,transparent 5.8%),
+ radial-gradient(ellipse at 90% 66%,rgba(117,67,17,.35) 0 8%,transparent 9%),
+ radial-gradient(ellipse at 42% 83%,rgba(183,255,0,.20) 0 6%,transparent 7%),
+ radial-gradient(ellipse at 65% 48%,rgba(73,58,37,.42) 0 12%,transparent 13%);
+ filter:blur(9px) saturate(1.2);animation:slosh 17s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.24;background-image:
+ radial-gradient(circle at 7% 23%,var(--slime) 0 3px,transparent 4px),
+ radial-gradient(circle at 13% 28%,var(--slime) 0 1px,transparent 2px),
+ radial-gradient(circle at 91% 38%,#725516 0 4px,transparent 5px),
+ radial-gradient(circle at 86% 43%,var(--slime) 0 2px,transparent 3px),
+ repeating-linear-gradient(97deg,transparent 0 104px,rgba(183,255,0,.05) 105px 108px,transparent 109px 213px)}
+main,footer{position:relative;z-index:1}
+@keyframes slosh{0%{transform:translate3d(-1%,0,0) scale(1)}45%{transform:translate3d(1.5%,-1%,0) scale(1.025)}100%{transform:translate3d(-.5%,1.5%,0) scale(1.01)}}
+.lore-paper::after{content:"";position:absolute;left:7%;right:9%;bottom:-13px;height:26px;background:var(--slime);opacity:.82;clip-path:polygon(0 0,100% 0,98% 38%,94% 15%,90% 100%,85% 28%,80% 75%,75% 17%,68% 92%,61% 33%,55% 79%,48% 21%,42% 100%,34% 27%,28% 72%,21% 18%,14% 89%,8% 30%,3% 67%,0 0)}
+.lore-paper{position:relative}
+.audio-dock{position:fixed;right:1rem;bottom:1rem;z-index:500;display:grid;grid-template-columns:44px minmax(122px,1fr) 36px 36px;align-items:center;gap:.4rem;width:min(360px,calc(100vw - 2rem));padding:.55rem .65rem;background:rgba(6,7,5,.92);border:2px solid var(--slime);box-shadow:7px 8px 0 #000,0 0 24px rgba(183,255,0,.16);backdrop-filter:blur(8px);clip-path:polygon(0 5%,4% 0,28% 3%,49% 0,68% 4%,100% 0,98% 27%,100% 50%,98% 77%,100% 100%,72% 97%,45% 100%,19% 96%,0 100%,2% 74%,0 47%,2% 22%)}
+.audio-dock::before{content:"";position:absolute;left:12%;right:8%;bottom:-9px;height:14px;background:var(--slime);z-index:-1;clip-path:polygon(0 0,100% 0,97% 30%,94% 100%,88% 25%,82% 76%,76% 16%,70% 91%,64% 24%,58% 68%,51% 18%,45% 100%,38% 28%,31% 72%,25% 15%,18% 89%,12% 27%,5% 68%,0 0)}
+.audio-icon,.audio-skip{display:grid;place-items:center;border:0;background:var(--slime);color:#090b05;cursor:pointer;min-width:36px;min-height:36px;box-shadow:2px 3px 0 #000}
+.audio-icon{width:44px;height:44px;background:var(--blood);color:#fff}
+.audio-icon:hover,.audio-icon:focus-visible,.audio-skip:hover,.audio-skip:focus-visible{outline:3px solid #fff;outline-offset:2px;filter:saturate(1.35)}
+.audio-icon svg,.audio-skip svg{width:22px;height:22px;fill:currentColor}.audio-icon .icon-pause{display:none}.audio-dock.is-playing .audio-icon .icon-play{display:none}.audio-dock.is-playing .audio-icon .icon-pause{display:block}
+.audio-copy{min-width:0;display:grid;line-height:1.05}.audio-kicker{font-family:"Special Elite",serif;font-size:.62rem;color:#a9a38e;letter-spacing:.12em}.audio-copy strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--slime);font-size:.82rem;text-transform:uppercase}
+@media(max-width:720px){.audio-dock{right:.55rem;bottom:.55rem;width:min(330px,calc(100vw - 1.1rem));grid-template-columns:42px minmax(90px,1fr) 34px 34px;padding:.45rem}.audio-copy strong{font-size:.72rem}.audio-kicker{font-size:.55rem}footer{padding-bottom:7rem}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}}
+
+/* first-visit Blair gate */
+.blair-intro[hidden]{display:none}
+.blair-intro{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:#030403;color:#eee9d6;overflow:hidden}
+.blair-intro::before{content:"";position:absolute;inset:-15%;background:
+ radial-gradient(circle at 16% 22%,rgba(183,255,0,.16) 0 7%,transparent 8%),
+ radial-gradient(circle at 88% 78%,rgba(213,22,15,.19) 0 9%,transparent 10%),
+ radial-gradient(circle at 72% 18%,rgba(183,255,0,.09) 0 4%,transparent 5%),
+ radial-gradient(circle at 34% 84%,rgba(117,67,17,.28) 0 13%,transparent 14%);filter:blur(14px);animation:intro-slop 8s ease-in-out infinite alternate}
+.blair-intro::after{content:"";position:absolute;inset:0;opacity:.13;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.4px);background-size:7px 9px;mix-blend-mode:screen;pointer-events:none}
+.intro-inner{position:relative;z-index:2;width:min(900px,88vw);text-align:center;padding:2rem}
+.intro-type{min-height:2.7em;margin:0 auto 2rem;font-family:"Special Elite",serif;font-size:clamp(2.2rem,6vw,6rem);line-height:1.05;text-transform:none;text-shadow:4px 5px 0 #000;letter-spacing:.015em}
+.intro-type::after{content:"_";display:inline-block;color:var(--slime);margin-left:.15em;animation:cursor-blink .72s steps(1,end) infinite}
+.intro-type.done::after{content:""}
+.intro-enter{font-family:"Rubik Wet Paint",system-ui;font-size:clamp(1.4rem,3vw,2.25rem);letter-spacing:.08em;background:var(--slime);color:#070806;border:3px solid #111;padding:.65rem 1.4rem;cursor:pointer;box-shadow:7px 8px 0 #000;transform:rotate(-1deg)}
+.intro-enter:hover,.intro-enter:focus-visible{background:var(--blood);color:#fff;outline:3px solid #fff;outline-offset:4px;transform:rotate(1deg) translateY(-2px)}
+.intro-goop{position:absolute;left:0;right:0;bottom:-3vh;height:26vh;background:linear-gradient(180deg,transparent 0 15%,rgba(183,255,0,.11) 15% 30%,rgba(97,138,0,.33) 30% 100%);clip-path:polygon(0 22%,6% 9%,12% 28%,18% 14%,25% 34%,31% 10%,38% 28%,45% 12%,52% 35%,60% 11%,67% 29%,73% 15%,81% 34%,88% 12%,94% 27%,100% 15%,100% 100%,0 100%)}
+.intro-fly{position:absolute;width:10px;height:10px;background:#cfc7aa;border-radius:50%;box-shadow:-7px -2px 0 -2px #cfc7aa,7px -2px 0 -2px #cfc7aa;opacity:.8;animation:fly-bug 6s linear infinite}
+.intro-fly-a{top:19%;left:12%}.intro-fly-b{right:16%;bottom:24%;animation-delay:-2.2s;animation-duration:7.8s}
+@keyframes cursor-blink{0%,48%{opacity:1}49%,100%{opacity:0}}
+@keyframes intro-slop{0%{transform:translate(-1%,-1%) scale(1)}100%{transform:translate(1.5%,1%) scale(1.04)}}
+@keyframes fly-bug{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(32px,-18px) rotate(90deg)}50%{transform:translate(-14px,24px) rotate(180deg)}75%{transform:translate(18px,8px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg)}}
+body.intro-open{overflow:hidden}
+@media(prefers-reduced-motion:reduce){.blair-intro::before,.intro-fly,.intro-type::after{animation:none}}
+
+/* paint-time intro visibility */
+.blair-intro{display:none}
+html.blair-first .blair-intro{display:grid}
+.blair-intro.is-leaving{pointer-events:none;animation:intro-leave 1.65s cubic-bezier(.62,.02,.34,1) forwards}
+.blair-intro.is-leaving .intro-inner{animation:intro-sink 1.25s ease forwards}
+.blair-intro.is-leaving .intro-goop{animation:intro-puddle-out 1.45s ease-in forwards}
+@keyframes intro-leave{0%{opacity:1;filter:blur(0)}58%{opacity:.88}100%{opacity:0;filter:blur(9px);visibility:hidden}}
+@keyframes intro-sink{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(28px) scale(.97);opacity:0}}
+@keyframes intro-puddle-out{0%{transform:translateY(0) scaleY(1);opacity:1}100%{transform:translateY(16vh) scaleY(.35);opacity:0}}
+@media(prefers-reduced-motion:reduce){.blair-intro.is-leaving,.blair-intro.is-leaving .intro-inner,.blair-intro.is-leaving .intro-goop{animation-duration:.15s}}
