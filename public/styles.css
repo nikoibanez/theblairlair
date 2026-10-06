@@ -173,8 +173,8 @@ html.blair-first .blair-intro{display:grid}
 .intro-type.emotion-small{font-size:clamp(1.15rem,2.6vw,2.7rem);transform:scale(.82);letter-spacing:.005em;color:#bcb5a0}
 .intro-type.intro-real-frenzy{animation:intro-real-frenzy .065s steps(2,end) infinite alternate;color:#fff;text-shadow:-5px 1px 0 #5e0000,5px -2px 0 #163200,0 0 22px rgba(255,255,255,.38)}
 @keyframes intro-real-frenzy{0%{transform:translate(-7px,-3px) rotate(-1deg) scale(1.12);letter-spacing:.03em}33%{transform:translate(6px,4px) rotate(.8deg) scale(1.17);letter-spacing:.075em}66%{transform:translate(-3px,6px) rotate(-.5deg) scale(1.09);letter-spacing:.01em}100%{transform:translate(8px,-5px) rotate(1.1deg) scale(1.19);letter-spacing:.09em}}
-.intro-type.intro-final-frenzy{animation:intro-final-frenzy .085s steps(2,end) infinite alternate;color:#f2ead7;text-shadow:-7px 3px 0 #740500,7px -3px 0 #264100,0 0 26px rgba(183,255,0,.33)}
-@keyframes intro-final-frenzy{0%{transform:translate(-5px,1px) rotate(-.55deg) scale(1.04);letter-spacing:.02em}50%{transform:translate(5px,-4px) rotate(.5deg) scale(1.1);letter-spacing:.055em}100%{transform:translate(-2px,5px) rotate(-.25deg) scale(1.07);letter-spacing:.035em}}
+.intro-type.intro-final-frenzy{animation:intro-final-frenzy .78s ease-in-out infinite alternate;color:#f2ead7;text-shadow:-3px 2px 0 #740500,3px -1px 0 #264100,0 0 15px rgba(183,255,0,.24)}
+@keyframes intro-final-frenzy{0%{transform:translate(-1px,0) rotate(-.08deg) scale(1.035);letter-spacing:.025em}50%{transform:translate(1px,-1px) rotate(.06deg) scale(1.045);letter-spacing:.03em}100%{transform:translate(0,1px) rotate(-.04deg) scale(1.04);letter-spacing:.027em}}
 .intro-ratman{position:absolute;left:-9vw;bottom:15vh;width:54px;height:74px;z-index:4;opacity:0;pointer-events:none;filter:drop-shadow(0 0 5px rgba(183,255,0,.24))}
 .intro-ratman-head{position:absolute;left:16px;top:0;width:24px;height:21px;background:#000;border-radius:58% 48% 52% 46%;transform:rotate(4deg)}
 .intro-ratman-head:before,.intro-ratman-head:after{content:"";position:absolute;top:-5px;width:9px;height:11px;background:#000;border-radius:55%}
@@ -189,3 +189,18 @@ html.blair-first .blair-intro{display:grid}
 @keyframes intro-ratman-scurry{0%{left:-9vw;bottom:15vh;transform:scale(.72) rotate(-8deg)}12%{bottom:13vh;transform:scale(.78) rotate(7deg)}29%{bottom:16vh;transform:scale(.8) rotate(-6deg)}48%{bottom:12vh;transform:scale(.84) rotate(8deg)}69%{bottom:15vh;transform:scale(.8) rotate(-5deg)}100%{left:108vw;bottom:13vh;transform:scale(.76) rotate(10deg)}}
 @media(max-width:720px){.intro-ratman{bottom:11vh;transform:scale(.8)}.intro-type.emotion-panic{font-size:clamp(1.7rem,7.4vw,3.35rem)}.intro-type.intro-final-frenzy{font-size:clamp(2rem,9vw,3.8rem)}}
 @media(prefers-reduced-motion:reduce){.blair-intro .intro-inner,.blair-intro .intro-goop,.blair-intro .intro-fly{animation:none;opacity:1}.intro-type.intro-real-frenzy,.intro-type.intro-final-frenzy,.intro-ratman.is-running{animation:none}.intro-ratman{display:none}}
+
+/* Blair changes face every time his name appears */
+.blair-word{display:inline-block;line-height:.95;color:inherit;text-transform:inherit;transform-origin:50% 70%;text-shadow:inherit}
+.blair-font-wet{font-family:"Rubik Wet Paint",system-ui;letter-spacing:-.035em;transform:rotate(-1deg)}
+.blair-font-creepster{font-family:"Creepster",cursive;letter-spacing:.015em;transform:skewX(-2deg)}
+.blair-font-nosifer{font-family:"Nosifer",cursive;letter-spacing:-.06em;transform:translateY(.04em) scale(.92)}
+.blair-font-butcherman{font-family:"Butcherman",cursive;letter-spacing:.01em;transform:rotate(.8deg)}
+.blair-font-eater{font-family:"Eater",cursive;letter-spacing:-.015em;transform:scaleX(1.06)}
+.blair-font-lacquer{font-family:"Lacquer",system-ui;letter-spacing:.015em;transform:rotate(-.7deg) skewY(-1deg)}
+.blair-font-jolly{font-family:"Jolly Lodger",cursive;letter-spacing:.025em;transform:scale(1.08) rotate(.4deg)}
+.blair-font-frijole{font-family:"Frijole",system-ui;letter-spacing:-.055em;transform:scaleY(.92)}
+.blair-font-metal{font-family:"Metal Mania",system-ui;letter-spacing:.025em;transform:skewX(-4deg)}
+.blair-font-henny{font-family:"Henny Penny",system-ui;letter-spacing:-.02em;transform:rotate(1deg) scale(1.05)}
+.blair-font-unifraktur{font-family:"UnifrakturCook",serif;letter-spacing:.02em;transform:scaleY(1.08)}
+.blair-font-kablammo{font-family:"Kablammo",system-ui;letter-spacing:-.03em;transform:rotate(-.4deg) scaleX(1.04)}

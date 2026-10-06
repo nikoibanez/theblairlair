@@ -1,3 +1,49 @@
+const blairFontClasses = [
+  'blair-font-wet','blair-font-creepster','blair-font-nosifer','blair-font-butcherman',
+  'blair-font-eater','blair-font-lacquer','blair-font-jolly','blair-font-frijole',
+  'blair-font-metal','blair-font-henny','blair-font-unifraktur','blair-font-kablammo'
+];
+let blairFontCursor = 0;
+
+function nextBlairFontClass() {
+  const cls = blairFontClasses[blairFontCursor % blairFontClasses.length];
+  blairFontCursor += 1;
+  return cls;
+}
+
+function buildBlairFragment(value, assignedClasses = null) {
+  const frag = document.createDocumentFragment();
+  const re = /\bBlair\b/gi;
+  let last = 0;
+  let match;
+  let occurrence = 0;
+  while ((match = re.exec(value))) {
+    if (match.index > last) frag.append(document.createTextNode(value.slice(last, match.index)));
+    const span = document.createElement('span');
+    span.className = `blair-word ${(assignedClasses && assignedClasses[occurrence]) || nextBlairFontClass()}`;
+    span.textContent = match[0];
+    frag.append(span);
+    last = match.index + match[0].length;
+    occurrence += 1;
+  }
+  if (last < value.length) frag.append(document.createTextNode(value.slice(last)));
+  return frag;
+}
+
+function stylizeStaticBlairWords() {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!/\bBlair\b/i.test(node.nodeValue || '')) return NodeFilter.FILTER_REJECT;
+      const parent = node.parentElement;
+      if (!parent || parent.closest('script,style,textarea,input,select,option,#blair-intro-text,.blair-word')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => node.replaceWith(buildBlairFragment(node.nodeValue || '')));
+}
+
 function dailySeed(value) {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i += 1) {
@@ -216,8 +262,10 @@ function initIntroGate(audioApi) {
   };
   const type = async (value, min = 34, max = 94) => {
     text.classList.remove('done');
+    const blairCount = (value.match(/\bBlair\b/gi) || []).length;
+    const assignedBlairFonts = Array.from({ length: blairCount }, () => nextBlairFontClass());
     for (let i = 0; i <= value.length && !cancelled; i += 1) {
-      text.textContent = value.slice(0, i);
+      text.replaceChildren(buildBlairFragment(value.slice(0, i), assignedBlairFonts));
       const ch = value[i - 1] || '';
       let delay = min + Math.random() * (max - min);
       if ('.!?'.includes(ch)) delay += 170 + Math.random() * 260;
@@ -316,7 +364,7 @@ function initIntroGate(audioApi) {
   };
 
   if (reduceMotion) {
-    text.textContent = 'do you DARE to enter the BLAIR LAIR';
+    text.replaceChildren(buildBlairFragment('do you DARE to enter the BLAIR LAIR'));
     text.classList.add('done', 'is-final');
     enter.hidden = false;
   } else {
@@ -351,6 +399,7 @@ function initIntroGate(audioApi) {
   enter.addEventListener('click', leaveLairGate);
 }
 
+stylizeStaticBlairWords();
 initDailyTransmission();
 addFlyDrift();
 makeSightingsKeyboardFriendly();
@@ -433,7 +482,7 @@ function initInteractionBlair() {
       const status = form.querySelector('.submission-status');
       const hiss = document.querySelector('#rat-hiss-audio');
       if (button) { button.disabled = true; button.textContent = 'FILING... HSSSS'; }
-      if (status) { status.hidden = false; status.textContent = 'Blair has noticed the paperwork.'; }
+      if (status) { status.hidden = false; status.replaceChildren(buildBlairFragment('Blair has noticed the paperwork.')); }
 
       burst('crouch', true);
       if (hiss) {
@@ -453,7 +502,7 @@ function initInteractionBlair() {
         });
         if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
         form.reset();
-        if (status) status.textContent = 'FILED. Blair hsssssses approvingly. Pending human review.';
+        if (status) status.replaceChildren(buildBlairFragment('FILED. Blair hsssssses approvingly. Pending human review.'));
         if (button) button.textContent = 'FILED';
       } catch (error) {
         console.error(error);
