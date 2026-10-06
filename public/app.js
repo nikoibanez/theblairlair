@@ -411,7 +411,7 @@ function initInteractionBlair() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const variants = {
-    crouch: { src: '/assets/ratman-crouch.webm', cls: 'blair-burst--crouch', life: 1750 },
+    crouch: { src: '/assets/ratman-crouch.webm?v=2', cls: 'blair-burst--crouch', life: 1750 },
     bike: { src: '/assets/ratman-bike.webm', cls: 'blair-burst--bike', life: 1900 },
     pizza: { src: '/assets/ratman-pizza.webm', cls: 'blair-burst--pizza', life: 1900 }
   };
@@ -437,6 +437,13 @@ function initInteractionBlair() {
     video.preload = 'auto';
     shell.appendChild(video);
     document.body.appendChild(shell);
+
+    const shakeClass = name === 'crouch' ? 'blair-impact-shake--close' : 'blair-impact-shake';
+    document.body.classList.remove('blair-impact-shake', 'blair-impact-shake--close');
+    void document.body.offsetWidth;
+    document.body.classList.add(shakeClass);
+    window.setTimeout(() => document.body.classList.remove(shakeClass), name === 'crouch' ? 460 : 330);
+
     requestAnimationFrame(() => shell.classList.add('is-running'));
     video.play().catch(() => {});
     const remove = () => shell.remove();
@@ -464,7 +471,7 @@ function initInteractionBlair() {
       if (pageChange) {
         event.preventDefault();
         burst(Math.random() < .5 ? 'bike' : 'pizza', true);
-        window.setTimeout(() => { location.href = url.href; }, 720);
+        beginPageDissolve(url.href);
         return;
       }
     }
@@ -521,3 +528,41 @@ function initInteractionBlair() {
 }
 
 initInteractionBlair();
+
+function getBlairDissolveOverlay() {
+  let overlay = document.querySelector('.blair-dissolve');
+  if (overlay) return overlay;
+  overlay = document.createElement('div');
+  overlay.className = 'blair-dissolve';
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function beginPageDissolve(href) {
+  const overlay = getBlairDissolveOverlay();
+  document.body.classList.remove('page-dissolving-in');
+  document.body.classList.add('page-dissolving-out');
+  overlay.classList.remove('is-arriving');
+  overlay.classList.add('is-covering');
+  try { sessionStorage.setItem('blair-dissolve-arrival', '1'); } catch (_) {}
+  window.setTimeout(() => { location.href = href; }, 690);
+}
+
+function initPageDissolveArrival() {
+  let shouldPlay = false;
+  try {
+    shouldPlay = sessionStorage.getItem('blair-dissolve-arrival') === '1';
+    if (shouldPlay) sessionStorage.removeItem('blair-dissolve-arrival');
+  } catch (_) {}
+  if (!shouldPlay) return;
+  const overlay = getBlairDissolveOverlay();
+  document.body.classList.add('page-dissolving-in');
+  overlay.classList.add('is-arriving');
+  window.setTimeout(() => {
+    overlay.remove();
+    document.body.classList.remove('page-dissolving-in');
+  }, 900);
+}
+
+initPageDissolveArrival();

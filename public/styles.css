@@ -204,3 +204,25 @@ html.blair-first .blair-intro{display:grid}
 .blair-font-henny{font-family:"Henny Penny",system-ui;letter-spacing:-.02em;transform:rotate(1deg) scale(1.05)}
 .blair-font-unifraktur{font-family:"UnifrakturCook",serif;letter-spacing:.02em;transform:scaleY(1.08)}
 .blair-font-kablammo{font-family:"Kablammo",system-ui;letter-spacing:-.03em;transform:rotate(-.4deg) scaleX(1.04)}
+
+/* Blair interaction impact: small site shake, stronger for the close-facing crouch. */
+body.blair-impact-shake{animation:blair-site-shake .32s cubic-bezier(.36,.07,.19,.97) both}
+body.blair-impact-shake--close{animation:blair-site-shake-close .45s cubic-bezier(.36,.07,.19,.97) both}
+.blair-burst.is-running video{animation:blair-sprite-rattle .28s steps(4,end) 2}
+@keyframes blair-site-shake{0%,100%{transform:translate3d(0,0,0)}25%{transform:translate3d(-2px,1px,0) rotate(-.04deg)}50%{transform:translate3d(2px,-1px,0) rotate(.04deg)}75%{transform:translate3d(-1px,1px,0)}}
+@keyframes blair-site-shake-close{0%,100%{transform:translate3d(0,0,0)}12%{transform:translate3d(-4px,2px,0) rotate(-.08deg)}28%{transform:translate3d(3px,-2px,0) rotate(.07deg)}46%{transform:translate3d(-3px,1px,0) rotate(-.05deg)}67%{transform:translate3d(2px,2px,0) rotate(.04deg)}84%{transform:translate3d(-1px,-1px,0)}}
+@keyframes blair-sprite-rattle{0%,100%{filter:none}33%{filter:contrast(1.08)}66%{filter:contrast(.95)}}
+
+/* Cross-page dissolve: dirty particulate veil out, then back in on the destination. */
+.blair-dissolve{position:fixed;inset:0;z-index:1500;pointer-events:none;opacity:0;background:#020302;overflow:hidden}
+.blair-dissolve::before,.blair-dissolve::after{content:"";position:absolute;inset:-12%;background-image:radial-gradient(circle at 18% 23%,rgba(183,255,0,.18) 0 1px,transparent 2px),radial-gradient(circle at 73% 41%,rgba(151,19,24,.22) 0 1.4px,transparent 2.5px),radial-gradient(circle at 37% 79%,rgba(232,222,190,.12) 0 1px,transparent 2px),repeating-radial-gradient(circle at 50% 50%,rgba(0,0,0,.92) 0 2px,transparent 2px 7px);background-size:31px 29px,47px 41px,23px 37px,13px 13px;filter:contrast(145%) saturate(.7);transform:scale(1.04)}
+.blair-dissolve::after{opacity:.5;mix-blend-mode:screen;transform:scale(1.08) rotate(.6deg);background-position:13px -7px,-9px 17px,5px 11px,0 0}
+.blair-dissolve.is-covering{animation:blair-dissolve-cover .72s cubic-bezier(.72,.02,.28,1) forwards}
+.blair-dissolve.is-arriving{opacity:1;animation:blair-dissolve-arrive .78s cubic-bezier(.2,.7,.16,1) forwards}
+body.page-dissolving-out main,body.page-dissolving-out header,body.page-dissolving-out footer{animation:blair-content-dissolve-out .68s ease forwards}
+body.page-dissolving-in main,body.page-dissolving-in header,body.page-dissolving-in footer{animation:blair-content-dissolve-in .78s ease both}
+@keyframes blair-dissolve-cover{0%{opacity:0;clip-path:inset(0 100% 0 0);filter:blur(0)}38%{opacity:.56;clip-path:inset(0 42% 0 0);filter:blur(.5px)}72%{opacity:.91;clip-path:inset(0 9% 0 0);filter:blur(1.1px)}100%{opacity:1;clip-path:inset(0);filter:blur(0)}}
+@keyframes blair-dissolve-arrive{0%{opacity:1;clip-path:inset(0);filter:blur(0)}45%{opacity:.68;clip-path:inset(0 0 0 28%);filter:blur(.8px)}78%{opacity:.2;clip-path:inset(0 0 0 78%);filter:blur(1.3px)}100%{opacity:0;clip-path:inset(0 0 0 100%);filter:blur(0)}}
+@keyframes blair-content-dissolve-out{0%{opacity:1;filter:blur(0) contrast(1)}52%{opacity:.7;filter:blur(1.2px) contrast(1.18)}100%{opacity:.08;filter:blur(4px) contrast(1.35)}}
+@keyframes blair-content-dissolve-in{0%{opacity:.08;filter:blur(4px) contrast(1.35)}55%{opacity:.72;filter:blur(1px) contrast(1.12)}100%{opacity:1;filter:blur(0) contrast(1)}}
+@media(prefers-reduced-motion:reduce){body.blair-impact-shake,body.blair-impact-shake--close,.blair-burst.is-running video{animation:none}.blair-dissolve::before,.blair-dissolve::after{display:none}.blair-dissolve.is-covering{animation:blair-simple-cover .18s linear forwards}.blair-dissolve.is-arriving{animation:blair-simple-arrive .18s linear forwards}body.page-dissolving-out main,body.page-dissolving-out header,body.page-dissolving-out footer,body.page-dissolving-in main,body.page-dissolving-in header,body.page-dissolving-in footer{animation:none}@keyframes blair-simple-cover{to{opacity:1}}@keyframes blair-simple-arrive{from{opacity:1}to{opacity:0}}}
