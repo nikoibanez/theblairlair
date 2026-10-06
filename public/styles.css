@@ -120,3 +120,12 @@ html.blair-first .blair-intro{display:grid}
 @keyframes intro-sink{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(28px) scale(.97);opacity:0}}
 @keyframes intro-puddle-out{0%{transform:translateY(0) scaleY(1);opacity:1}100%{transform:translateY(16vh) scaleY(.35);opacity:0}}
 @media(prefers-reduced-motion:reduce){.blair-intro.is-leaving,.blair-intro.is-leaving .intro-inner,.blair-intro.is-leaving .intro-goop{animation-duration:.15s}}
+
+/* erratic intro testimony */
+.intro-type.is-rant{font-size:clamp(1.65rem,4vw,4rem);max-width:980px;line-height:1.18;text-transform:none;letter-spacing:.005em}
+.intro-type.is-final{font-size:clamp(2.4rem,6vw,6rem);line-height:1.02}
+.intro-type.intro-jolt{transform:translate(8px,-3px) rotate(-.5deg);filter:blur(.35px)}
+.intro-type.intro-shiver{animation:intro-shiver .16s steps(2,end) infinite alternate}
+@keyframes intro-shiver{0%{transform:translate(-2px,0) rotate(-.15deg)}100%{transform:translate(2px,1px) rotate(.12deg)}}
+@media(max-width:720px){.intro-type.is-rant{font-size:clamp(1.35rem,6.2vw,2.4rem);line-height:1.22}.intro-type.is-final{font-size:clamp(2rem,9vw,3.6rem)}}
+@media(prefers-reduced-motion:reduce){.intro-type.intro-shiver{animation:none}.intro-type.intro-jolt{transform:none;filter:none}}

@@ -1,4 +1,4 @@
-﻿const statusEl = document.querySelector('#printify-status');
+const statusEl = document.querySelector('#printify-status');
 const grid = document.querySelector('#product-grid');
 
 async function loadPrintifyCatalog() {
@@ -138,37 +138,112 @@ function initIntroGate(audioApi) {
   if (!intro || !text || !enter || !goop || !isFirstVisit) return;
 
   document.body.classList.add('intro-open');
-  const phrase = 'do you DARE to enter the BLAIR LAIR';
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let autoplayBlocked = false;
   let leaving = false;
+  let cancelled = false;
 
   goop.volume = 0.72;
   goop.currentTime = 0;
   goop.play().catch(() => { autoplayBlocked = true; });
 
-  const finishTyping = () => {
-    text.textContent = phrase;
+  const sleep = ms => new Promise(resolve => window.setTimeout(resolve, ms));
+  const type = async (value, min = 34, max = 94) => {
+    text.classList.remove('done');
+    for (let i = 0; i <= value.length && !cancelled; i += 1) {
+      text.textContent = value.slice(0, i);
+      const ch = value[i - 1] || '';
+      let delay = min + Math.random() * (max - min);
+      if ('.!?'.includes(ch)) delay += 170 + Math.random() * 260;
+      if (ch === ',') delay += 90;
+      if (Math.random() < 0.035) delay += 180 + Math.random() * 320;
+      await sleep(delay);
+    }
+  };
+
+  const erase = async (count, speed = 22) => {
+    for (let i = 0; i < count && text.textContent.length && !cancelled; i += 1) {
+      text.textContent = text.textContent.slice(0, -1);
+      await sleep(speed + Math.random() * 24);
+    }
+  };
+
+  const clearAbruptly = async (pause = 260) => {
+    await sleep(pause);
+    text.classList.add('intro-jolt');
+    await sleep(90);
+    text.textContent = '';
+    text.classList.remove('intro-jolt');
+  };
+
+  const runRant = async () => {
+    text.classList.add('is-rant');
+    await sleep(240);
+    await type('I knew I saw him before I knew his name.');
+    await sleep(820);
+    await clearAbruptly(130);
+
+    await type('Sitting there on top of El Raton...');
+    await sleep(720);
+    await type(' menacingly.');
+    await sleep(420);
+    await type(' Menacingly perching.');
+    await sleep(980);
+    await clearAbruptly(120);
+
+    await type('I think we made eye contact before I fell into a bush, paralyezd with terror.');
+    await sleep(380);
+    await erase('paralyezd with terror.'.length + 1, 16);
+    await type('paralyzed with terror.', 25, 58);
+    await sleep(930);
+    await clearAbruptly(90);
+
+    text.classList.add('intro-shiver');
+    await type("He's real... He's real!", 26, 72);
+    await sleep(940);
+    text.classList.remove('intro-shiver');
+    await clearAbruptly(80);
+
+    await type("I'll get him soon! Then everyone will see the true terror of Blair!", 25, 66);
+    await sleep(880);
+    await clearAbruptly(100);
+
+    await type('Blair in the air. Blair on the stair. Blair by the chair. Blair--', 19, 49);
+    await sleep(510);
+    await erase(8, 13);
+    await type('...hair?', 32, 78);
+    await sleep(690);
+    await type(' Where? Beware? Lair?', 22, 55);
+    await sleep(600);
+    await clearAbruptly(55);
+
+    await type('Why do they all rhyme?', 22, 55);
+    await sleep(560);
+    await erase(22, 15);
+    await type('Forget that.', 20, 44);
+    await sleep(510);
+    await clearAbruptly(70);
+
+    text.classList.remove('is-rant');
+    text.classList.add('is-final', 'intro-shiver');
+    await type('do you DARE to enter the BLAIR LAIR', 38, 88);
+    text.classList.remove('intro-shiver');
     text.classList.add('done');
     enter.hidden = false;
   };
 
-  if (reduceMotion) finishTyping();
-  else {
-    let cursor = 0;
-    const typeNext = () => {
-      text.textContent = phrase.slice(0, cursor);
-      if (cursor <= phrase.length) {
-        cursor += 1;
-        window.setTimeout(typeNext, cursor < 8 ? 72 : 58 + Math.random() * 42);
-      } else window.setTimeout(finishTyping, 220);
-    };
-    window.setTimeout(typeNext, 260);
+  if (reduceMotion) {
+    text.textContent = 'do you DARE to enter the BLAIR LAIR';
+    text.classList.add('done', 'is-final');
+    enter.hidden = false;
+  } else {
+    runRant();
   }
 
   const leaveLairGate = () => {
     if (leaving) return;
     leaving = true;
+    cancelled = true;
     enter.disabled = true;
     try { localStorage.setItem('blair-lair-entered', '1'); } catch (_) {}
 
