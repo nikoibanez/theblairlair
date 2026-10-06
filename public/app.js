@@ -401,12 +401,49 @@ function initInteractionBlair() {
   });
 
   document.querySelectorAll('.sighting-form').forEach(form => {
-    form.addEventListener('submit', event => {
-      if (form.dataset.blairSubmitting === '1') return;
+    form.addEventListener('submit', async event => {
       event.preventDefault();
+      if (form.dataset.blairSubmitting === '1' || !form.reportValidity()) return;
+
       form.dataset.blairSubmitting = '1';
+      const button = form.querySelector('button[type="submit"]');
+      const status = form.querySelector('.submission-status');
+      const hiss = document.querySelector('#rat-hiss-audio');
+      if (button) { button.disabled = true; button.textContent = 'FILING... HSSSS'; }
+      if (status) { status.hidden = false; status.textContent = 'Blair has noticed the paperwork.'; }
+
       burst('crouch', true);
-      window.setTimeout(() => form.submit(), 900);
+      if (hiss) {
+        hiss.currentTime = 0;
+        hiss.volume = 0.95;
+        hiss.play().catch(() => {});
+      }
+
+      try {
+        const formData = new FormData(form);
+        const encoded = new URLSearchParams();
+        formData.forEach((value, key) => encoded.append(key, String(value)));
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encoded.toString()
+        });
+        if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
+        form.reset();
+        if (status) status.textContent = 'FILED. Blair hsssssses approvingly. Pending human review.';
+        if (button) button.textContent = 'FILED';
+      } catch (error) {
+        console.error(error);
+        if (status) status.textContent = 'The paperwork escaped. Try filing the filth again.';
+        if (button) { button.disabled = false; button.textContent = 'FILE THE FILTH'; }
+        form.dataset.blairSubmitting = '0';
+        return;
+      }
+
+      window.setTimeout(() => {
+        if (button) { button.disabled = false; button.textContent = 'FILE THE FILTH'; }
+        form.dataset.blairSubmitting = '0';
+      }, 3200);
     });
   });
 }

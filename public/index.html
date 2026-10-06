@@ -162,15 +162,18 @@
       <div class="report-copy"><span class="stamp">REPORT A SIGHTING</span><h2 id="report-title">Did Blair interfere with an otherwise mediocre evening?</h2><p>Send the archive what you saw and where the pavement was wet; mention which explanation failed first if it seems useful. Keep real names and private addresses out of it because Blair can carry the disgrace without borrowing somebody else's.</p></div>
       <form class="sighting-form" name="blair-sighting" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="blair-sighting" />
+        <input type="hidden" name="subject" data-remove-prefix value="New Blair sighting for review" />
         <p class="hidden"><label>Do not fill this out <input name="bot-field" /></label></p>
         <label>Approximate location <input name="location" maxlength="80" placeholder="alley / station / behind something sticky" required /></label>
         <label>What happened? <textarea name="report" rows="5" maxlength="700" placeholder="Keep it fictional and anonymous; Blair can handle the rest." required></textarea></label>
         <label>Evidence rating <select name="rating"><option>probably a raccoon</option><option>could be Blair</option><option>unfortunately Blair</option><option>I refuse to answer</option></select></label>
         <button class="btn slime" type="submit">FILE THE FILTH</button>
+        <p class="submission-status" aria-live="polite" hidden></p>
       </form>
     </section>
   </main>
 
+  <audio id="rat-hiss-audio" preload="auto" src="/audio/06-rat-hiss.wav"></audio>
   <aside class="audio-dock" aria-label="Blair Lair background audio">
     <audio id="blair-audio" preload="metadata"></audio>
     <button id="audio-toggle" class="audio-icon" type="button" aria-label="Play background audio" aria-pressed="false">
