@@ -333,3 +333,82 @@ addFlyDrift();
 makeSightingsKeyboardFriendly();
 const audioApi = initLairAudio();
 initIntroGate(audioApi);
+
+
+function initInteractionBlair() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const variants = {
+    crouch: { src: '/assets/ratman-crouch.webm', cls: 'blair-burst--crouch', life: 1750 },
+    bike: { src: '/assets/ratman-bike.webm', cls: 'blair-burst--bike', life: 1900 },
+    pizza: { src: '/assets/ratman-pizza.webm', cls: 'blair-burst--pizza', life: 1900 }
+  };
+  const names = Object.keys(variants);
+  let lastBurst = 0;
+
+  const burst = (preferred, force = false) => {
+    const now = performance.now();
+    if (!force && now - lastBurst < 1500) return false;
+    lastBurst = now;
+    const name = preferred && variants[preferred] ? preferred : names[Math.floor(Math.random() * names.length)];
+    const variant = variants[name];
+    document.querySelectorAll('.blair-burst').forEach(node => node.remove());
+
+    const shell = document.createElement('div');
+    shell.className = `blair-burst ${variant.cls}`;
+    shell.setAttribute('aria-hidden', 'true');
+    shell.style.setProperty('--blair-drift', `${Math.round(Math.random() * 24 - 12)}vh`);
+    const video = document.createElement('video');
+    video.src = variant.src;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    shell.appendChild(video);
+    document.body.appendChild(shell);
+    requestAnimationFrame(() => shell.classList.add('is-running'));
+    video.play().catch(() => {});
+    const remove = () => shell.remove();
+    video.addEventListener('ended', remove, { once: true });
+    window.setTimeout(remove, variant.life + 400);
+    return true;
+  };
+
+  window.BlairRat = burst;
+
+  document.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target) return;
+    if (target.closest('#blair-enter')) {
+      burst(Math.random() < .5 ? 'pizza' : 'crouch', true);
+      return;
+    }
+    if (target.closest('.sighting-form button[type="submit"]')) return;
+
+    const link = target.closest('a[href]');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+      let url;
+      try { url = new URL(link.href, location.href); } catch (_) { url = null; }
+      const pageChange = url && url.origin === location.origin && url.pathname !== location.pathname && link.target !== '_blank';
+      if (pageChange) {
+        event.preventDefault();
+        burst(Math.random() < .5 ? 'bike' : 'pizza', true);
+        window.setTimeout(() => { location.href = url.href; }, 720);
+        return;
+      }
+    }
+
+    if (Math.random() < .34) burst();
+  });
+
+  document.querySelectorAll('.sighting-form').forEach(form => {
+    form.addEventListener('submit', event => {
+      if (form.dataset.blairSubmitting === '1') return;
+      event.preventDefault();
+      form.dataset.blairSubmitting = '1';
+      burst('crouch', true);
+      window.setTimeout(() => form.submit(), 900);
+    });
+  });
+}
+
+initInteractionBlair();
