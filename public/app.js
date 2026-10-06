@@ -1,26 +1,77 @@
-const statusEl = document.querySelector('#printify-status');
-const grid = document.querySelector('#product-grid');
-
-async function loadPrintifyCatalog() {
-  if (!statusEl || !grid) return;
-  try {
-    const response = await fetch('/api/printify-products', { headers: { Accept: 'application/json' } });
-    if (!response.ok) throw new Error('Printify API sync not configured');
-    const data = await response.json();
-    if (!Array.isArray(data?.data) || data.data.length === 0) throw new Error('No public products returned');
-    const currentCards = [...grid.querySelectorAll('.product-card')];
-    data.data.slice(0, 4).forEach((product, index) => {
-      const card = currentCards[index];
-      if (!card) return;
-      const title = card.querySelector('h3');
-      const link = card.querySelector('a');
-      if (title && product.title) title.textContent = product.title;
-      if (link) link.href = grid.dataset.printifyStore;
-    });
-    statusEl.textContent = `Live Printify catalog sync active: ${data.data.length} products available.`;
-  } catch {
-    statusEl.textContent = 'Printify storefront connected; live API sync is optional and activates when PRINTIFY_API_TOKEN and PRINTIFY_SHOP_ID are added in Netlify.';
+function dailySeed(value) {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
   }
+  return hash >>> 0;
+}
+
+function initDailyTransmission() {
+  const status = document.querySelector('#terminal-status');
+  const input = document.querySelector('#terminal-input');
+  const dateEl = document.querySelector('#terminal-date');
+  const ascii = document.querySelector('#blair-daily-ascii');
+  const list = document.querySelector('#terminal-daily-list');
+  const warning = document.querySelector('#terminal-warning');
+  if (!status || !input || !ascii || !list || !warning) return;
+
+  const now = new Date();
+  const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  let seed = dailySeed(key);
+  const next = max => {
+    seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+    return (seed >>> 0) % max;
+  };
+  const pick = arr => arr[next(arr.length)];
+
+  const statuses = ['MOIST', 'SOGGY', 'FERMENTING', 'ITCHY', 'WALL-ADJACENT', 'DAMP ENOUGH', 'AWAKE UNDER SOMETHING', 'UNSUPERVISED'];
+  const inputs = ['UNTRUSTWORTHY', 'CRUMBS', 'ONE BAD IDEA', 'PIPE NOISE', 'SECONDHAND SMOKE', 'A WET RECEIPT', 'NOTHING HE WILL ADMIT TO', 'LOW CEILING'];
+  const eyes = ['(o o)', '(O o)', '(o O)', '(@ @)', '(- o)', '(o -)', '(• •)'];
+  const bellies = ['FLAB', 'DAMP', 'MOLD?', 'SNACK', 'HUMID', '???'];
+  const hisses = ['HSSSS', 'HSSSSSS', 'hhSSSS', 'SSSSS', 'HSSS?'];
+  const longHisses = ['hssssssssssssssss', 'hhhhhsssssssssss', 'sssssssssssssssss', 'hssss... hsssssss', 'HSSSSSSSSSSSSSS'];
+  const items = ['RATS', 'ROT', 'ALLEYS', 'WET PLACES', 'THE UNHEARD', 'CEILING TILES', 'LOOSE CHANGE', 'DRAINPIPES', 'STAIRS AT 2AM', 'OLD MASONRY', 'UNATTENDED SNACKS', 'BAD ALIBIS', 'YOUR SHED', 'THE ROOF AGAIN'];
+  const targets = ['YOU', 'THE LAST WITNESS', 'WHOEVER LEFT THE WINDOW OPEN', 'THE PERSON READING THIS', 'THE NEXT BAD DECISION'];
+  const warnings = [
+    'ONCE YOU HEAR THE CALL THERE IS NO UNHEARING.',
+    'THE SCRATCHING MOVED THREE FEET TO THE LEFT WHILE THIS LOG WAS OPEN.',
+    'DO NOT FOLLOW THE WET FOOTPRINTS. THEY HAVE ALREADY CHANGED DIRECTION.',
+    'IF THE PIPE HISSSES BACK, DO NOT ANSWER WITH YOUR FULL NAME.',
+    'THE ROOFLINE IS OCCUPIED AGAIN. NO FURTHER MEASUREMENTS ARE PLANNED.',
+    'SOMETHING HAS BEEN BREATHING BEHIND THE VENDING MACHINE SINCE 03:11.'
+  ];
+
+  status.textContent = `STATUS: ${pick(statuses)}`;
+  input.textContent = `INPUT: ${pick(inputs)}`;
+  if (dateEl) dateEl.textContent = `TRANSMISSION: ${key.replaceAll('-', '.')}`;
+
+  let art = ascii.textContent;
+  art = art.replace('(o o)', pick(eyes));
+  art = art.replace('HSSSS', pick(hisses));
+  art = art.replace('FLAB', pick(bellies));
+  art = art.replace('hssssssssssssssss', pick(longHisses));
+  const drift = next(5) - 2;
+  if (drift > 0) art = art.split('\n').map((line, index) => index % 3 === 0 ? ' '.repeat(drift) + line : line).join('\n');
+  ascii.textContent = art;
+
+  const existingLink = list.querySelector('.terminal-acts-link');
+  list.querySelectorAll('p').forEach(node => node.remove());
+  const chosen = [];
+  while (chosen.length < 5) {
+    const item = pick(items);
+    if (!chosen.includes(item)) chosen.push(item);
+  }
+  chosen.forEach(item => {
+    const p = document.createElement('p');
+    p.textContent = `( ) ${item}`;
+    list.insertBefore(p, warning);
+  });
+  const selected = document.createElement('p');
+  selected.textContent = `(X) ${pick(targets)}`;
+  list.insertBefore(selected, warning);
+  warning.textContent = pick(warnings);
+  if (existingLink) list.appendChild(existingLink);
 }
 
 function addFlyDrift() {
@@ -277,7 +328,7 @@ function initIntroGate(audioApi) {
   enter.addEventListener('click', leaveLairGate);
 }
 
-loadPrintifyCatalog();
+initDailyTransmission();
 addFlyDrift();
 makeSightingsKeyboardFriendly();
 const audioApi = initLairAudio();

@@ -1,11 +1,7 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const src = path.join(__dirname, 'public');
 const out = path.join(__dirname, 'dist');
 fs.rmSync(out, { recursive: true, force: true });
 fs.cpSync(src, out, { recursive: true });
-const indexPath = path.join(out, 'index.html');
-let html = fs.readFileSync(indexPath, 'utf8');
-html = html.replace('/app-v2.js', '/app.js');
-fs.writeFileSync(indexPath, html, 'utf8');
 console.log('Built Blair Lair to dist/');

@@ -60,7 +60,7 @@ Useful contribution categories include:
 
 ## Site and storefront
 
-The site is a static Netlify project with a small Netlify Function scaffold for optional Printify catalog synchronization. Until API credentials are configured, merch links hand off to the public Printify storefront.
+The site is a static Netlify project with a small server-side fulfillment scaffold. Merch links leave the Blair Lair through a vendor-neutral `/shop` route so the public site can keep its own identity even if the fulfillment backend changes later.
 
 ### Local development
 
@@ -70,15 +70,6 @@ npm run dev
 ```
 
 Netlify serves the site from `public/`.
-
-### Optional Printify environment variables
-
-```text
-PRINTIFY_API_TOKEN
-PRINTIFY_SHOP_ID
-```
-
-Do not commit those values to the repository.
 
 ## Project status
 
