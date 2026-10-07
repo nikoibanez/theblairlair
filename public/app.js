@@ -122,15 +122,20 @@ function initDailyTransmission() {
 
 function addFlyDrift() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  document.querySelectorAll('.fly').forEach((fly, index) => {
-    const amplitude = 5 + index * 3;
-    let t = index * 1.7;
+  const flies = [...document.querySelectorAll('.fly')];
+  flies.forEach((fly, index) => {
+    const amplitude = 8 + index * 3.5;
+    const speed = 0.015 + index * 0.0018;
+    let t = index * 1.83;
     const tick = () => {
-      t += 0.018;
-      fly.style.translate = `${Math.sin(t) * amplitude}px ${Math.cos(t * 1.4) * amplitude * 0.7}px`;
+      t += speed;
+      const x = Math.sin(t * 1.17) * amplitude + Math.sin(t * 3.1) * amplitude * 0.24;
+      const y = Math.cos(t * 1.43) * amplitude * 0.72 + Math.sin(t * 2.37) * amplitude * 0.18;
+      const wobble = Math.sin(t * 2.9) * 7;
+      fly.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) rotate(calc(var(--fly-rotate, 0deg) + ' + wobble.toFixed(2) + 'deg)) scale(var(--fly-scale, 1))';
       requestAnimationFrame(tick);
     };
-    tick();
+    requestAnimationFrame(tick);
   });
 }
 
@@ -139,9 +144,9 @@ function makeSightingsKeyboardFriendly() {
 }
 
 const blairTracks = [
+  { title: 'Bad Decision Braam', src: '/audio/03-bad-decision-braam.wav' },
   { title: 'Porch Rat', src: '/audio/01-porch-rat.wav' },
   { title: 'Sewer Throat', src: '/audio/02-sewer-throat.wav' },
-  { title: 'Bad Decision Braam', src: '/audio/03-bad-decision-braam.wav' },
   { title: 'Alley Teeth', src: '/audio/04-alley-teeth.wav' },
   { title: 'Railcut Ritual', src: '/audio/05-railcut-ritual.wav' }
 ];
@@ -231,6 +236,7 @@ function initIntroGate(audioApi) {
   const text = document.querySelector('#blair-intro-text');
   const enter = document.querySelector('#blair-enter');
   const goop = document.querySelector('#intro-goop-audio');
+  const introSynth = document.querySelector('#intro-synth-audio');
   const introRatman = document.querySelector('#intro-ratman');
   const isFirstVisit = document.documentElement.classList.contains('blair-first');
   if (!intro || !text || !enter || !goop || !isFirstVisit) return;
@@ -245,10 +251,24 @@ function initIntroGate(audioApi) {
   goop.currentTime = 0;
   goop.play().catch(() => { autoplayBlocked = true; });
 
+  if (introSynth) {
+    introSynth.loop = true;
+    introSynth.volume = 0.045;
+    introSynth.currentTime = 0;
+    introSynth.play().catch(() => { autoplayBlocked = true; });
+  }
+
   const wakeBlockedGoop = event => {
     if (!autoplayBlocked || leaving || event?.target === enter) return;
     goop.volume = 0.24;
-    goop.play().then(() => { autoplayBlocked = false; }).catch(() => { autoplayBlocked = true; });
+    const wake = [goop.play()];
+    if (introSynth) {
+      introSynth.volume = 0.045;
+      wake.push(introSynth.play());
+    }
+    Promise.allSettled(wake).then(results => {
+      autoplayBlocked = results.some(result => result.status === 'rejected');
+    });
   };
   intro.addEventListener('pointerdown', wakeBlockedGoop, { passive: true });
   intro.addEventListener('touchstart', wakeBlockedGoop, { passive: true });
@@ -381,6 +401,7 @@ function initIntroGate(audioApi) {
     const beginCrossfade = () => {
       intro.classList.add('is-leaving');
       fadeAudio(goop, 0, 1450, () => goop.pause());
+      if (introSynth) fadeAudio(introSynth, 0, 1550, () => introSynth.pause());
       if (audioApi) audioApi.playWithFade(1900);
       window.setTimeout(() => {
         document.documentElement.classList.remove('blair-first');
