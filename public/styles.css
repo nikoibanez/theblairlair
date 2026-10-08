@@ -104,13 +104,7 @@ main,footer{position:relative;z-index:1}
 .intro-enter{font-family:"Rubik Wet Paint",system-ui;font-size:clamp(1.4rem,3vw,2.25rem);letter-spacing:.08em;background:var(--slime);color:#070806;border:3px solid #111;padding:.65rem 1.4rem;cursor:pointer;box-shadow:7px 8px 0 #000;transform:rotate(-1deg)}
 .intro-enter:hover,.intro-enter:focus-visible{background:var(--blood);color:#fff;outline:3px solid #fff;outline-offset:4px;transform:rotate(1deg) translateY(-2px)}
 .intro-goop{position:absolute;left:0;right:0;bottom:-3vh;height:26vh;background:linear-gradient(180deg,transparent 0 15%,rgba(183,255,0,.11) 15% 30%,rgba(97,138,0,.33) 30% 100%);clip-path:polygon(0 22%,6% 9%,12% 28%,18% 14%,25% 34%,31% 10%,38% 28%,45% 12%,52% 35%,60% 11%,67% 29%,73% 15%,81% 34%,88% 12%,94% 27%,100% 15%,100% 100%,0 100%)}
-.intro-fly{position:absolute;left:-9vw;width:10px;height:10px;background:#cfc7aa;border-radius:50%;box-shadow:-7px -2px 0 -2px #cfc7aa,7px -2px 0 -2px #cfc7aa;opacity:.8;--fly-duration:18s;--fly-delay:0s;--fy1:-18px;--fy2:22px;--fy3:-10px;animation:intro-fly-waft var(--fly-duration) cubic-bezier(.42,.03,.58,.97) infinite;animation-delay:var(--fly-delay);will-change:transform}
-.intro-fly-a{top:14%;--fly-duration:17.5s;--fly-delay:-2s;--fy1:-22px;--fy2:18px;--fy3:-8px}
-.intro-fly-b{top:29%;--fly-duration:21s;--fly-delay:-11s;--fy1:16px;--fy2:-26px;--fy3:12px}
-.intro-fly-c{top:47%;--fly-duration:19s;--fly-delay:-6s;--fy1:-14px;--fy2:28px;--fy3:-20px}
-.intro-fly-d{top:66%;--fly-duration:23s;--fly-delay:-15s;--fy1:24px;--fy2:-18px;--fy3:16px}
-.intro-fly-e{top:81%;--fly-duration:20.5s;--fly-delay:-9s;--fy1:-20px;--fy2:15px;--fy3:-24px}
-@keyframes intro-fly-waft{0%{transform:translate3d(0,0,0) rotate(-8deg)}18%{transform:translate3d(28vw,var(--fy1),0) rotate(24deg)}48%{transform:translate3d(118vw,var(--fy2),0) rotate(11deg)}54%{transform:translate3d(118vw,var(--fy2),0) rotate(-12deg)}78%{transform:translate3d(46vw,var(--fy3),0) rotate(-28deg)}100%{transform:translate3d(0,0,0) rotate(-8deg)}}
+.intro-fly{position:absolute;left:0;top:0;width:10px;height:10px;background:#cfc7aa;border-radius:50%;box-shadow:-7px -2px 0 -2px #cfc7aa,7px -2px 0 -2px #cfc7aa;opacity:.8;will-change:transform;pointer-events:none}
 @keyframes cursor-blink{0%,48%{opacity:1}49%,100%{opacity:0}}
 @keyframes intro-slop{0%{transform:translate(-1%,-1%) scale(1)}100%{transform:translate(1.5%,1%) scale(1.04)}}
 @keyframes fly-bug{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(32px,-18px) rotate(90deg)}50%{transform:translate(-14px,24px) rotate(180deg)}75%{transform:translate(18px,8px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg)}}
@@ -169,7 +163,7 @@ html.blair-first .blair-intro{display:grid}
 .blair-intro{background:#000}
 .blair-intro .intro-inner,.blair-intro .intro-goop{opacity:0;animation:intro-black-reveal 7s cubic-bezier(.25,.05,.2,1) forwards}
 .blair-intro .intro-goop{animation-delay:.4s}
-.blair-intro .intro-fly{opacity:0;animation:intro-fly-waft var(--fly-duration) cubic-bezier(.42,.03,.58,.97) infinite,intro-black-reveal 7s cubic-bezier(.25,.05,.2,1) forwards;animation-delay:var(--fly-delay),1.1s}
+.blair-intro .intro-fly{opacity:0;animation:intro-black-reveal 7s cubic-bezier(.25,.05,.2,1) 1.1s forwards}
 @keyframes intro-black-reveal{0%{opacity:0;filter:blur(5px)}55%{opacity:.22;filter:blur(2px)}100%{opacity:1;filter:blur(0)}}
 .intro-type{transition:font-size .42s ease,transform .32s ease,letter-spacing .32s ease,color .25s ease,text-shadow .25s ease}
 .intro-type.emotion-hushed{font-size:clamp(1.35rem,3.2vw,3.15rem);transform:scale(.9);letter-spacing:.01em;color:#d4cfbd}

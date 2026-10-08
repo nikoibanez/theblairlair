@@ -242,6 +242,104 @@ function initIntroGate(audioApi) {
 
   document.body.classList.add('intro-open');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const startIntroFlyBounce = () => {
+    const flies = [...intro.querySelectorAll('.intro-fly')];
+    if (!flies.length) return;
+
+    const margin = 8;
+    const state = flies.map((fly, index) => {
+      const width = Math.max(10, fly.offsetWidth || 10);
+      const height = Math.max(10, fly.offsetHeight || 10);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const diagonal = Math.hypot(vw, vh);
+      const baseSpeed = (diagonal / 11.2) * 0.6;
+      const speed = baseSpeed * (0.84 + Math.random() * 0.32);
+      const angleChoices = [
+        Math.PI * (0.11 + Math.random() * 0.22),
+        Math.PI * (0.78 + Math.random() * 0.16),
+        Math.PI * (1.11 + Math.random() * 0.22),
+        Math.PI * (1.78 + Math.random() * 0.16)
+      ];
+      const angle = angleChoices[index % angleChoices.length] + (Math.random() - 0.5) * 0.2;
+      return {
+        fly,
+        width,
+        height,
+        x: margin + Math.random() * Math.max(1, vw - width - margin * 2),
+        y: margin + Math.random() * Math.max(1, vh - height - margin * 2),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        spin: (Math.random() - 0.5) * 22,
+        rotation: Math.random() * 360
+      };
+    });
+
+    const randomizeBounce = (item, hitX, hitY) => {
+      if (hitX) item.vx *= -1;
+      if (hitY) item.vy *= -1;
+
+      const speed = Math.hypot(item.vx, item.vy);
+      let angle = Math.atan2(item.vy, item.vx);
+      angle += (Math.random() - 0.5) * 0.48;
+
+      const minComponent = speed * 0.22;
+      let vx = Math.cos(angle) * speed;
+      let vy = Math.sin(angle) * speed;
+      if (Math.abs(vx) < minComponent) vx = Math.sign(vx || (Math.random() - 0.5)) * minComponent;
+      if (Math.abs(vy) < minComponent) vy = Math.sign(vy || (Math.random() - 0.5)) * minComponent;
+
+      const normalized = speed / Math.hypot(vx, vy);
+      item.vx = vx * normalized;
+      item.vy = vy * normalized;
+      item.spin = (Math.random() - 0.5) * 28;
+    };
+
+    let last = performance.now();
+    const tick = now => {
+      if (!intro.isConnected || leaving) return;
+      const dt = Math.min(0.04, Math.max(0, (now - last) / 1000));
+      last = now;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      state.forEach(item => {
+        item.x += item.vx * dt;
+        item.y += item.vy * dt;
+        let hitX = false;
+        let hitY = false;
+
+        if (item.x <= margin) {
+          item.x = margin;
+          hitX = true;
+        } else if (item.x + item.width >= vw - margin) {
+          item.x = vw - margin - item.width;
+          hitX = true;
+        }
+
+        if (item.y <= margin) {
+          item.y = margin;
+          hitY = true;
+        } else if (item.y + item.height >= vh - margin) {
+          item.y = vh - margin - item.height;
+          hitY = true;
+        }
+
+        if (hitX || hitY) randomizeBounce(item, hitX, hitY);
+
+        item.rotation += item.spin * dt;
+        item.fly.style.transform = 'translate3d(' + item.x.toFixed(2) + 'px,' + item.y.toFixed(2) + 'px,0) rotate(' + item.rotation.toFixed(2) + 'deg)';
+      });
+
+      requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  startIntroFlyBounce();
+
   let autoplayBlocked = false;
   let leaving = false;
   let cancelled = false;
