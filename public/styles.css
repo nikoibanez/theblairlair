@@ -104,7 +104,12 @@ main,footer{position:relative;z-index:1}
 .intro-enter{font-family:"Rubik Wet Paint",system-ui;font-size:clamp(1.4rem,3vw,2.25rem);letter-spacing:.08em;background:var(--slime);color:#070806;border:3px solid #111;padding:.65rem 1.4rem;cursor:pointer;box-shadow:7px 8px 0 #000;transform:rotate(-1deg)}
 .intro-enter:hover,.intro-enter:focus-visible{background:var(--blood);color:#fff;outline:3px solid #fff;outline-offset:4px;transform:rotate(1deg) translateY(-2px)}
 .intro-goop{position:absolute;left:0;right:0;bottom:-3vh;height:26vh;background:linear-gradient(180deg,transparent 0 15%,rgba(183,255,0,.11) 15% 30%,rgba(97,138,0,.33) 30% 100%);clip-path:polygon(0 22%,6% 9%,12% 28%,18% 14%,25% 34%,31% 10%,38% 28%,45% 12%,52% 35%,60% 11%,67% 29%,73% 15%,81% 34%,88% 12%,94% 27%,100% 15%,100% 100%,0 100%)}
-.intro-fly{position:absolute;left:0;top:0;width:10px;height:10px;background:#cfc7aa;border-radius:50%;box-shadow:-7px -2px 0 -2px #cfc7aa,7px -2px 0 -2px #cfc7aa;opacity:.8;will-change:transform;pointer-events:none}
+.intro-fly{position:absolute;left:0;top:0;width:11px;height:17px;background:#17150f;border-radius:58% 58% 48% 48%;opacity:.88;will-change:transform;pointer-events:none;filter:drop-shadow(0 0 2px rgba(225,218,190,.16))}
+.intro-fly::before,.intro-fly::after{content:"";position:absolute;top:1px;width:10px;height:7px;border:1.5px solid rgba(218,210,178,.88);background:rgba(218,210,178,.14);border-radius:70% 45% 65% 35%;transform-origin:100% 70%;will-change:transform,opacity}
+.intro-fly::before{right:7px;animation:fly-wing-left 86ms cubic-bezier(.2,.85,.45,1) infinite alternate}
+.intro-fly::after{left:7px;transform-origin:0 70%;animation:fly-wing-right 79ms cubic-bezier(.18,.78,.4,1) infinite alternate}
+@keyframes fly-wing-left{0%{transform:rotate(-16deg) scaleX(1.05) scaleY(.82);opacity:.55}32%{transform:rotate(-58deg) scaleX(.82) scaleY(.48);opacity:.9}67%{transform:rotate(11deg) scaleX(1.1) scaleY(.92);opacity:.48}100%{transform:rotate(-43deg) scaleX(.9) scaleY(.58);opacity:.8}}
+@keyframes fly-wing-right{0%{transform:rotate(17deg) scaleX(1.02) scaleY(.78);opacity:.62}28%{transform:rotate(61deg) scaleX(.8) scaleY(.45);opacity:.9}63%{transform:rotate(-9deg) scaleX(1.12) scaleY(.94);opacity:.5}100%{transform:rotate(47deg) scaleX(.88) scaleY(.56);opacity:.82}}
 @keyframes cursor-blink{0%,48%{opacity:1}49%,100%{opacity:0}}
 @keyframes intro-slop{0%{transform:translate(-1%,-1%) scale(1)}100%{transform:translate(1.5%,1%) scale(1.04)}}
 @keyframes fly-bug{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(32px,-18px) rotate(90deg)}50%{transform:translate(-14px,24px) rotate(180deg)}75%{transform:translate(18px,8px) rotate(270deg)}100%{transform:translate(0,0) rotate(360deg)}}
@@ -249,3 +254,11 @@ body.page-dissolving-in main,body.page-dissolving-in header,body.page-dissolving
   .blair-intro .intro-inner{width:100%;padding:1.25rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
   .blair-intro .intro-type{width:min(92vw,680px);max-width:92vw;margin-left:auto;margin-right:auto;text-align:center;transform-origin:center center}
 }
+
+
+/* one fly physically travels the document, not the viewport */
+.page-fly{position:absolute;left:0;top:0;z-index:180;width:13px;height:20px;background:#17150f;border-radius:58% 58% 48% 48%;pointer-events:none;opacity:.84;will-change:transform;filter:drop-shadow(0 0 2px rgba(225,218,190,.18))}
+.page-fly::before{content:"";position:absolute;left:4px;top:-3px;width:5px;height:5px;border-radius:50%;background:#17150f}
+.page-fly b{position:absolute;top:1px;width:12px;height:8px;border:1.5px solid rgba(218,210,178,.86);background:rgba(218,210,178,.12);border-radius:70% 45% 65% 35%;will-change:transform,opacity}
+.page-fly b:first-child{right:8px;transform-origin:100% 70%;animation:fly-wing-left 88ms cubic-bezier(.2,.85,.45,1) infinite alternate}
+.page-fly b:last-child{left:8px;transform-origin:0 70%;animation:fly-wing-right 81ms cubic-bezier(.18,.78,.4,1) infinite alternate}

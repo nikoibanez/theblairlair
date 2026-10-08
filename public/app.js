@@ -517,9 +517,64 @@ function initIntroGate(audioApi) {
   enter.addEventListener('click', leaveLairGate);
 }
 
+
+function initPageFly() {
+  const fly = document.querySelector('#page-fly');
+  if (!fly) return;
+
+  let x = Math.max(24, window.innerWidth * (0.16 + Math.random() * 0.68));
+  let y = 24 + Math.random() * Math.max(80, document.documentElement.scrollHeight * 0.2);
+  let direction = Math.random() > 0.5 ? 1 : -1;
+  let speed = 46 + Math.random() * 12;
+  let phase = Math.random() * Math.PI * 2;
+  let last = performance.now();
+  let nextJitter = last + 900 + Math.random() * 1900;
+
+  const tick = now => {
+    const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
+    last = now;
+
+    const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    const maxY = Math.max(40, docHeight - 40);
+    const maxX = Math.max(32, window.innerWidth - 32);
+
+    y += direction * speed * dt;
+    phase += dt * 1.35;
+
+    if (y >= maxY) {
+      y = maxY;
+      direction = -1;
+      speed = 43 + Math.random() * 16;
+      phase += Math.random() * 1.2;
+    } else if (y <= 22) {
+      y = 22;
+      direction = 1;
+      speed = 43 + Math.random() * 16;
+      phase += Math.random() * 1.2;
+    }
+
+    if (now >= nextJitter) {
+      nextJitter = now + 900 + Math.random() * 2200;
+      speed = Math.max(38, Math.min(62, speed + (Math.random() - 0.5) * 9));
+      phase += (Math.random() - 0.5) * 0.9;
+    }
+
+    const sway = Math.sin(phase) * 42 + Math.sin(phase * 0.43) * 23;
+    const micro = Math.sin(phase * 4.1) * 4;
+    const drawX = Math.max(14, Math.min(maxX, x + sway + micro));
+    const angle = Math.atan2(direction * speed, Math.cos(phase) * 55) * 180 / Math.PI - 90;
+
+    fly.style.transform = 'translate3d(' + drawX.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) rotate(' + angle.toFixed(2) + 'deg)';
+    requestAnimationFrame(tick);
+  };
+
+  requestAnimationFrame(tick);
+}
+
 stylizeStaticBlairWords();
 initDailyTransmission();
 addFlyDrift();
+initPageFly();
 makeSightingsKeyboardFriendly();
 const audioApi = initLairAudio();
 initIntroGate(audioApi);
