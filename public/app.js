@@ -121,7 +121,6 @@ function initDailyTransmission() {
 }
 
 function addFlyDrift() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const flies = [...document.querySelectorAll('.fly')];
   flies.forEach((fly, index) => {
     const amplitude = 8 + index * 3.5;
