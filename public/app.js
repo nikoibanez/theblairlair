@@ -657,6 +657,18 @@ function initInteractionBlair() {
       event.preventDefault();
       if (form.dataset.blairSubmitting === '1' || !form.reportValidity()) return;
 
+      const images = [...form.querySelectorAll('input[type="file"]')].flatMap(input => [...input.files]);
+      const allowedTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
+      if (images.some(file => !allowedTypes.has(file.type))) {
+        const status = form.querySelector('.submission-status');
+        if (status) { status.hidden = false; status.textContent = 'Attach only JPG, PNG, or WebP images.'; }
+        return;
+      }
+      if (images.reduce((sum, file) => sum + file.size, 0) > 7 * 1024 * 1024) {
+        const status = form.querySelector('.submission-status');
+        if (status) { status.hidden = false; status.textContent = 'The combined images must be smaller than 7 MB.'; }
+        return;
+      }
       form.dataset.blairSubmitting = '1';
       const button = form.querySelector('button[type="submit"]');
       const status = form.querySelector('.submission-status');
@@ -673,12 +685,9 @@ function initInteractionBlair() {
 
       try {
         const formData = new FormData(form);
-        const encoded = new URLSearchParams();
-        formData.forEach((value, key) => encoded.append(key, String(value)));
         const response = await fetch('/', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: encoded.toString()
+          body: formData
         });
         if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
         form.reset();

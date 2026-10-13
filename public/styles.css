@@ -262,3 +262,11 @@ body.page-dissolving-in main,body.page-dissolving-in header,body.page-dissolving
 .page-fly b{position:absolute;top:1px;width:12px;height:8px;border:1.5px solid rgba(218,210,178,.86);background:rgba(218,210,178,.12);border-radius:70% 45% 65% 35%;will-change:transform,opacity}
 .page-fly b:first-child{right:8px;transform-origin:100% 70%;animation:fly-wing-left 88ms cubic-bezier(.2,.85,.45,1) infinite alternate}
 .page-fly b:last-child{left:8px;transform-origin:0 70%;animation:fly-wing-right 81ms cubic-bezier(.18,.78,.4,1) infinite alternate}
+
+
+/* Evidence attachments */
+.evidence-images { border: 1px dashed rgba(190, 230, 43, .55); margin: 1rem 0; padding: 1rem; min-width: 0; }
+.evidence-images legend { font-weight: bold; padding: 0 .4rem; }
+.evidence-images p { font-size: .9rem; margin: .35rem 0 .8rem; }
+.evidence-images label { display: block; margin: .55rem 0; }
+.evidence-images input[type="file"] { display: block; margin-top: .3rem; max-width: 100%; font: inherit; }

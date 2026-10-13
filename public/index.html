@@ -180,13 +180,21 @@
 
     <section id="report" class="report section-shell" aria-labelledby="report-title">
       <div class="report-copy"><span class="stamp">REPORT A SIGHTING</span><h2 id="report-title">Did Blair interfere with an otherwise mediocre evening?</h2></div>
-      <form class="sighting-form" name="blair-sighting" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="sighting-form" name="blair-sighting" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="blair-sighting" />
         <input type="hidden" name="subject" data-remove-prefix value="New Blair sighting for review" />
         <p class="hidden"><label>Do not fill this out <input name="bot-field" /></label></p>
         <label>Approximate location <input name="location" maxlength="80" placeholder="alley / station / behind something sticky" required /></label>
-        <label>What happened? <textarea name="report" rows="5" maxlength="700" placeholder="Keep it fictional and anonymous; Blair can handle the rest." required></textarea></label>
+        <label>What happened? <textarea name="report" rows="5" maxlength="700" placeholder="Describe what you saw, heard, or found." required></textarea></label>
         <label>Evidence rating <select name="rating"><option>probably a raccoon</option><option>could be Blair</option><option>unfortunately Blair</option><option>I refuse to answer</option></select></label>
+        <fieldset class="evidence-images">
+          <legend>Photographic evidence (optional)</legend>
+          <p>Attach up to four images (JPG, PNG, or WebP). Keep the combined upload under 7 MB. Do not include private addresses or identifying information.</p>
+          <label>Image 1 <input type="file" name="evidence_image_1" accept="image/jpeg,image/png,image/webp" /></label>
+          <label>Image 2 <input type="file" name="evidence_image_2" accept="image/jpeg,image/png,image/webp" /></label>
+          <label>Image 3 <input type="file" name="evidence_image_3" accept="image/jpeg,image/png,image/webp" /></label>
+          <label>Image 4 <input type="file" name="evidence_image_4" accept="image/jpeg,image/png,image/webp" /></label>
+        </fieldset>
         <label class="archive-consent"><input type="checkbox" name="public_archive_ok" value="yes" required /> If this survives review, I understand the anonymous report may become part of the public Blair archive.</label>
         <button class="btn slime" type="submit">FILE THE FILTH</button>
         <p class="submission-status" aria-live="polite" hidden></p>
