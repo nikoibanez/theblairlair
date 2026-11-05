@@ -234,6 +234,7 @@ function initIntroGate(audioApi) {
   const intro = document.querySelector('#blair-intro');
   const text = document.querySelector('#blair-intro-text');
   const enter = document.querySelector('#blair-enter');
+  const skip = document.querySelector('#blair-skip-intro');
   const goop = document.querySelector('#intro-goop-audio');
   const introSynth = document.querySelector('#intro-synth-audio');
   const introRatman = document.querySelector('#intro-ratman');
@@ -356,7 +357,7 @@ function initIntroGate(audioApi) {
   }
 
   const wakeBlockedGoop = event => {
-    if (!autoplayBlocked || leaving || event?.target === enter) return;
+    if (!autoplayBlocked || leaving || event?.target === enter || event?.target === skip) return;
     goop.volume = 0.24;
     const wake = [goop.play()];
     if (introSynth) {
@@ -515,6 +516,7 @@ function initIntroGate(audioApi) {
   };
 
   enter.addEventListener('click', leaveLairGate);
+  if (skip) skip.addEventListener('click', leaveLairGate);
 }
 
 
